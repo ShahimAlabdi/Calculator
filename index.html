@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Purple Rainbow Calculator</title>
+<title>Calculator</title>
 
 <style>
     body {
@@ -76,7 +76,7 @@
         <button onclick="press('7')">7</button>
         <button onclick="press('8')">8</button>
         <button onclick="press('9')">9</button>
-        <button onclick="press('/')">/</button>
+        <button onclick="press('/')">÷</button>
 
         <button onclick="press('4')">4</button>
         <button onclick="press('5')">5</button>
@@ -98,17 +98,19 @@
 </div>
 
 <script>
-    let internalExpression = ""; // stores real math (*)
+    let internalExpression = ""; // real math uses / and *
     const display = document.getElementById("display");
 
     function press(val) {
         flashButton(event.target);
 
-        // Store real math
+        // Add to internal expression
         internalExpression += val;
 
-        // Show pretty version
-        display.value = internalExpression.replace(/\*/g, "x");
+        // Display pretty version: replace / and *
+        display.value = internalExpression
+            .replace(/\*/g, "x")
+            .replace(/\//g, "÷");
     }
 
     function calculate() {
@@ -116,7 +118,12 @@
         try {
             let result = eval(internalExpression);
             internalExpression = result.toString();
-            display.value = internalExpression.replace(/\*/g, "x");
+
+            // Show pretty version again
+            display.value = internalExpression
+                .replace(/\*/g, "x")
+                .replace(/\//g, "÷");
+
         } catch {
             display.value = "Error";
             internalExpression = "";
